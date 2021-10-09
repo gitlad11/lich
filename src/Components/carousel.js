@@ -23,9 +23,7 @@ function MyCarousel(props){
 			maxWidth : "340px"
 		}
 	}
-	useEffect(() => {
-		console.log(items)
-	},[])	
+	
 	if(items == null ||  items.lenght <= 0 )
 		{return (
 

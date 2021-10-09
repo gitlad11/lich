@@ -8,13 +8,15 @@ import Grid from '@mui/material/Grid';
 import MyCarousel from './Components/carousel.js'
 import Content from './Components/content.js';
 import axios from 'axios'
+import Cookies from 'js-cookie'
 
 function App() {
   const [error, setError] = useState("");
   const [created, setCreated] = useState(false);
   const [creating , setCreating] = useState(false);
-  const [cookie, setCookie] = useState("");
   const [items, setItems] = useState()
+  const [cookie, setCookie] = useState("")
+
    axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
   const addGood = (url, params) => {
@@ -22,8 +24,10 @@ function App() {
     axios.post(url, params).then(function (res){
       if(res.data){
         console.log(res.data)
+
         setCreated(true)
         setCreating(false)
+
       }
     }).catch((error) => { 
       setError(error.message)
@@ -33,7 +37,16 @@ function App() {
 
   const getGoods = (url, params) => {
     axios.post(url, params).then((res) =>{
-      setItems(res.data)
+      //setItems(res.data)
+      console.log(res.data)
+    }).catch((error) => {
+      console.log(error.message)
+    })
+  }
+  
+  const removeGood = (url, params) => {
+    axios.post(url, params).then((res) => {
+      console.log(res.data)
     }).catch((error) => {
       console.log(error.message)
     })
@@ -51,8 +64,9 @@ function App() {
 
   useEffect(() =>{
     getJson("https://jsonplaceholder.typicode.com/photos")
+    getGoods("/cart/list", { lang : "1", shop : "1" }, {withCredentials: true})
   },[])
-  console.log(items)
+
   return (
 
     <div className="App">
